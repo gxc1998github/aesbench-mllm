@@ -35,8 +35,8 @@ class gptRequest():
 
 if True:
 
-
-    path = ".\images"
+    path = "/Users/daniel/EAPD_release/images"
+   ## path = ".\images"
     save_name= "test_AesA1.json"
     f = open(r"AesBench_evaluation.json", encoding='utf-8')
     data=json.load(f)
