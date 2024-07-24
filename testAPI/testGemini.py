@@ -1,11 +1,12 @@
+from dotenv import load_dotenv
 import google.generativeai as genai
 import os
 
-apiKeyAI = "AIzaSyAFImNJvd1hkKTf7foNCBB0W-ouUG0UV5A"
-apiKeyGoogleCloud = "AIzaSyDetIFrg5lEACtNdJYeIYKbAZxseYseAuo" 
+load_dotenv()
+genai.configure(api_key=os.getenv('API_KEY'))
+api_key=os.getenv('API_KEY')
+print("Key: " + str(api_key))
 
-#genai.configure(api_key=apiKeyAI)
-genai.configure(api_key=apiKeyGoogleCloud)
 
 #model = genai.GenerativeModel('gemini-1.5-flash') 
 model = genai.GenerativeModel('gemini-1.5-pro')    
