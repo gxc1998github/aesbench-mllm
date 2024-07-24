@@ -5,12 +5,9 @@ import os
 load_dotenv()
 genai.configure(api_key=os.getenv('API_KEY'))
 api_key=os.getenv('API_KEY')
-print("Key: " + str(api_key))
-
 
 #model = genai.GenerativeModel('gemini-1.5-flash') 
 model = genai.GenerativeModel('gemini-1.5-pro')    
-
 
 response = model.generate_content("Write a story about education, make it one sentence.")
 
