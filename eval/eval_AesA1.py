@@ -6,11 +6,11 @@ import google.generativeai as genai
 import PIL.Image
 
 # Or use `os.getenv('GOOGLE_API_KEY')` to fetch an environment variable.
-genai.configure(api_key="XX")
+genai.configure(api_key="AIzaSyDetIFrg5lEACtNdJYeIYKbAZxseYseAuo")
 
 class gptRequest():
     def __init__(self) -> None:
-        self.model = genai.GenerativeModel('gemini-pro-vision')
+        self.model = genai.GenerativeModel('gemini-1.5-pro')
     def forward(self, prompt, image_path,  server='Gemini'):
         if server == 'Gemini':
             img = PIL.Image.open(image_path)
@@ -35,7 +35,7 @@ class gptRequest():
 
 if True:
 
-    path = "/Users/daniel/EAPD_release/images"
+    path = "/Users/daniel/EAPD/images"
    ## path = ".\images"
     save_name= "test_AesA1.json"
     f = open(r"AesBench_evaluation.json", encoding='utf-8')
