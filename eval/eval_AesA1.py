@@ -41,13 +41,15 @@ print(f"\n*** Currently is using: {device} ***")
 if True:
 
     # Locate where is the dataset
-    path = "/Users/daniel/EAPD/images"
+    #path = "/Users/daniel/EAPD/images"
+    path = "/Users/daniel/BIQ2021/Images"
+
 
     # Locate where to record the output
     save_name= "test_AesA1.json"
 
-    # Open the questions and instructions
-    f = open(r"AesBench_evaluation.json", encoding='utf-8')
+    # Open the questions and instructions to be asked
+    f = open(r"AesBench_evaluation_subset.json", encoding='utf-8')
     data=json.load(f)
     f.close()
 
@@ -62,7 +64,12 @@ if True:
     img_num = 1
     start_time = time.time()
 
-    #####-------AesA1--------------------------
+    #####------- Pre-Prompt File--------------------------
+    # Read the content from the file
+    with open('pre_prompt.txt', 'r') as file:
+        pre_prompt = file.read()
+
+    #####-------AesA1--------------------------------------
     for imgName, label in data.items():
 
         # Show the image name
@@ -80,8 +87,8 @@ if True:
         start = time.time()
         time.sleep(1)
         
-        # Send request to API
-        AesA1_message = gpt_request.forward(AesA1_prompt, img_path)
+        # Send request to API: Pre-Prompt + Prompt + Image
+        AesA1_message = gpt_request.forward((pre_prompt+AesA1_prompt), img_path)
 
         # Show the answer received from API
         print(f"Answer:\n{AesA1_message}")
@@ -100,7 +107,7 @@ if True:
 
         # Show the process time
         print(f"AesA1--{img_num}/{all_num} finished. Using time (s):{time.time() - start:.1f}. Average image time (s):{avg_time:.1f}. Need time (h):{need_time:.1f}.")
-        
+                
         # Increment image number, and go to next image for aesthetic evaluation task
         img_num = img_num + 1
 
