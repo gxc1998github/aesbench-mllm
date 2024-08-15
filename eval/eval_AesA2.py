@@ -45,10 +45,10 @@ if True:
 
 
     # Locate where to record the output
-    save_name= "test_AesA1.json"
+    save_name= "test_AesA2.json"
 
     # Open the questions and instructions to be asked
-    f = open(r"AesBench_evaluation_subset.json", encoding='utf-8')
+    f = open(r"AesBench_evaluation_subset2.json", encoding='utf-8')
     data=json.load(f)
     f.close()
 
@@ -65,7 +65,7 @@ if True:
 
     #####------- Pre-Prompt File--------------------------
     # Read the content from the file
-    with open('pre_prompt.txt', 'r') as file:
+    with open('pre_prompt2.txt', 'r') as file:
         pre_prompt = file.read()
 
     #####-------AesA1--------------------------------------
@@ -78,22 +78,22 @@ if True:
         img_path = os.path.join(path, imgName)
 
         # Locate the question to be asked from json file
-        AesA1_data = label['AesA1_data']
-        AesA1_prompt = AesA1_data['Question'] + "\nChoose one from the following options:\n" + AesA1_data['Options'] + "\nYou should output a correct option.\n"
-        print(AesA1_prompt)
+        AesA2_data = label['AesA2_data']
+        AesA2_prompt = AesA2_data['Question'] + "\nYou should output a correct option.\n"
+        print(AesA2_prompt)
 
         # Wait for response
         start = time.time()
         time.sleep(1)
         
         # Send request to API: Pre-Prompt + Prompt + Image
-        AesA1_message = gpt_request.forward((pre_prompt+AesA1_prompt), img_path)
+        AesA2_message = gpt_request.forward((pre_prompt+AesA2_prompt), img_path)
 
         # Show the answer received from API
-        print(f"Answer:\n{AesA1_message}")
+        print(f"Answer:\n{AesA2_message}")
 
         # Record the answer
-        answers[imgName] = {"AesA1_response": AesA1_message}
+        answers[imgName] = {"AesA1_response": AesA2_message}
 
         # Write the answer into a json file
         answers_dict = json.dumps(answers, indent=4)
@@ -105,7 +105,7 @@ if True:
         need_time = (avg_time * (all_num - img_num)) / 3600
 
         # Show the process time
-        print(f"AesA1--{img_num}/{all_num} finished. Using time (s):{time.time() - start:.1f}. Average image time (s):{avg_time:.1f}. Need time (h):{need_time:.1f}.")
+        print(f"AesA2--{img_num}/{all_num} finished. Using time (s):{time.time() - start:.1f}. Average image time (s):{avg_time:.1f}. Need time (h):{need_time:.1f}.")
                 
         # Increment image number, and go to next image for aesthetic evaluation task
         img_num = img_num + 1
