@@ -1,20 +1,53 @@
-import sys
-import os
 from flask import Flask, render_template, request, redirect, url_for
-from PIL import Image
-
-# Add the eval directory to the system path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../eval')))
-
-import eval_AesA1
-import eval_AesA2
-import eval_AesA3
+import os
+import PIL.Image
+from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+import google.generativeai as genai
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# Load the API Key from the .env file located in the root directory
+load_dotenv()
+genai.configure(api_key=os.getenv('API_KEY'))
+
+# Predefined prompts for each assessment method
+prompts = {
+    "AesA1": "How is the aesthetic quality of this image? Choose one from the following options:\nHigh\nMedium\nLow\n",
+    "AesA2": "How is the aesthetic quality of this image? Give a score with a scale of 1 to 5.",
+    "AesA3": "How is the aesthetic quality of this image? Give a score with a scale of 1 to 10."
+}
+
+# Function to read pre-prompt from a text file
+def read_pre_prompt(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return file.read().strip()
+    except Exception as e:
+        print(f"Error reading pre-prompt file: {e}")
+        return ""
+
+# Generative AI model class
+class GptRequest:
+    def __init__(self):
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
+
+    def forward(self, prompt, image_path):
+        img = PIL.Image.open(image_path)
+        response = self.model.generate_content([prompt, img])
+        response.resolve()
+
+        # Extract and return the result
+        result = response._result  
+        if result.candidates:
+            text_content = result.candidates[0].content.parts[0].text
+            return text_content.strip()
+        else:
+            return "No response generated."
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -28,32 +61,38 @@ def index():
             return redirect(request.url)
         
         if file:
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
-            return render_template('assess.html', filename=file.filename)
+
+            # Get the selected assessment method
+            method = request.form.get('method')
+
+            # Get the corresponding prompt
+            prompt = prompts.get(method, "")
+
+            # Check if the selected method has a specific pre-prompt and add it
+            if method == "AesA1":
+                pre_prompt = read_pre_prompt('/Users/daniel/Repositories/aesbench-mllm/pre_prompts/pre_prompt1.txt')  # Update the path to your AesA1 text file
+                prompt = pre_prompt + "\n" + prompt
+            elif method == "AesA2":
+                pre_prompt = read_pre_prompt('/Users/daniel/Repositories/aesbench-mllm/pre_prompts/pre_prompt2.txt')  # Update the path to your AesA2 text file
+                prompt = pre_prompt + "\n" + prompt
+            elif method == "AesA3":
+                pre_prompt = read_pre_prompt('/Users/daniel/Repositories/aesbench-mllm/pre_prompts/pre_prompt3.txt')  # Update the path to your AesA3 text file
+                prompt = pre_prompt + "\n" + prompt
+
+            # Use the GptRequest class to generate the assessment
+            gpt_request = GptRequest()
+            result = gpt_request.forward(prompt, filepath)
+
+            return render_template('result.html', filename=filename, result=result)
     
     return render_template('index.html')
 
-@app.route('/assess', methods=['POST'])
-def assess_image():
-    filename = request.form.get('filename')
-    method = request.form.get('method')
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-    # Load the image for assessment (if needed)
-    image = Image.open(filepath)
-
-    # Perform the selected assessment
-    if method == 'AesA1':
-        result = eval_AesA1.assess(image)
-    elif method == 'AesA2':
-        result = eval_AesA2.assess(image)
-    elif method == 'AesA3':
-        result = eval_AesA3.assess(image)
-    else:
-        result = "Invalid method selected."
-
-    return render_template('result.html', filename=filename, result=result)
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return redirect(url_for('static', filename='uploads/' + filename))
 
 if __name__ == '__main__':
     app.run(debug=True)
