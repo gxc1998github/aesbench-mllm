@@ -1,6 +1,7 @@
-You are tasked with assessing the aesthetic quality of images and categorizing them into three levels: High, Medium, and Low. The criteria for each category are as follows:
+You are tasked with assessing the aesthetic quality of images and categorising them into scoring scale 1 to 5. 
+The criteria for each category are as follows:
 
-High (High-Quality Aesthetic)
+Score 5 or 4:
 
 	1.	Clarity and Definition:
 	•	The image is clear and sharp.
@@ -16,7 +17,7 @@ High (High-Quality Aesthetic)
 	•	The image is free from noise and artefacts.
 	•	The resolution is high, ensuring all details are visible.
 
-Medium (Moderate-Quality Aesthetic)
+Score 3 or 2:
 
 	1.	Clarity and Definition:
 	•	The image is clear, but may not be as sharp as High-quality images.
@@ -33,7 +34,7 @@ Medium (Moderate-Quality Aesthetic)
 	•	The image may have minor noise or artefacts.
 	•	The resolution is adequate but not high-definition.
 
-Low (Low-Quality Aesthetic)
+Score 1:
 
 	1.	Clarity and Definition:
 	•	The image is blurry and lacks sharpness.
@@ -50,5 +51,8 @@ Low (Low-Quality Aesthetic)
 	•	The resolution is low, making details hard to discern.
 
 
+Give a one sentence reason after selecting the answer!
 
-   Give a one sentence reason after selecting the answer!
+Here is an example how you give the answer:
+Answer: 5
+Explanation: The photo is high-definition without any noticeable blur.
