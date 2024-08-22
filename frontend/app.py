@@ -73,13 +73,13 @@ def index():
 
             # Check if the selected method has a specific pre-prompt and add it
             if method == "AesA1":
-                pre_prompt = read_pre_prompt('../pre_prompts/pre_prompt1.txt') 
+                pre_prompt = read_pre_prompt('../pre_prompts/pre_prompt1.txt')
                 prompt = pre_prompt + "\n" + prompt
             elif method == "AesA2":
-                pre_prompt = read_pre_prompt('/Users/daniel/Repositories/aesbench-mllm/pre_prompts/pre_prompt2.txt') 
+                pre_prompt = read_pre_prompt('../pre_prompts/pre_prompt2.txt') 
                 prompt = pre_prompt + "\n" + prompt
             elif method == "AesA3":
-                pre_prompt = read_pre_prompt('/Users/daniel/Repositories/aesbench-mllm/pre_prompts/pre_prompt3.txt')  
+                pre_prompt = read_pre_prompt('/../pre_prompts/pre_prompt3.txt')  
                 prompt = pre_prompt + "\n" + prompt
 
             # Use the GptRequest class to generate the assessment
