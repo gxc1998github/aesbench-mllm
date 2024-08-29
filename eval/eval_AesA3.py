@@ -59,7 +59,7 @@ path = "/Users/daniel/Datasets/BIQ2021/Images"
 save_name = "test_AesA3.json"
 
 # >> Locate pre-prompt File:
-with open('../pre_prompts/pre_prompt2.txt', 'r') as file:
+with open('../pre_prompts/pre_prompt3.txt', 'r') as file:
     pre_prompt = file.read()
 
 # AesA3 Process
