@@ -59,7 +59,6 @@ coverage.xml
 .idea/
 *.swp
 *.swo
-*.jpg
 
 # OS-specific files
 .DS_Store
