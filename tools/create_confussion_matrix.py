@@ -3,9 +3,11 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load the CSV files
-ground_truth_df = pd.read_csv('Full_Aesthetic_Responses.csv')
-prediction_df = pd.read_csv('Selected_Images_Subset.csv')
+# >> Load the CSV files
+prediction_df = pd.read_csv('../data_release/ground_truth.csv')
+ground_truth_df = pd.read_csv('../data_release/prediction_AesA1.csv')
+#ground_truth_df = pd.read_csv('../data_release/prediction_AesA2.csv')
+#ground_truth_df = pd.read_csv('../data_release/prediction_AesA3.csv')
 
 # Merge the dataframes on the 'Image Name' column
 merged_df = pd.merge(ground_truth_df, prediction_df, on='Image Name')
