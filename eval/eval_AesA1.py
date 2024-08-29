@@ -2,7 +2,7 @@ import google.generativeai as genai
 import os
 import PIL.Image
 import torch
-import json, time
+import csv, time, json
 from dotenv import load_dotenv
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -47,43 +47,41 @@ class GptRequest:
 # Show what computing power is used
 print(f"\n*** Currently is using: {device} ***")
 
-if True:
-    # Locate where is the dataset
-    path = "/Users/daniel/Datasets/BIQ2021/Images"
+# Create empty answer object and gpt object
+answers = {}
+gpt_request = GptRequest()
 
-    # Locate where to record the output
-    save_name = "test_AesA1.json"
+# Please download the dataset
+# >> Locate where is the dowloaded image dataset:
+path = "/Users/daniel/Datasets/BIQ2021/Images"
 
-    # Open the questions and instructions to be asked
-    with open(r"AesBench_evaluation_subset.json", encoding='utf-8') as f:
-        data = json.load(f)
+# >> Locate where to record the gpt output
+save_name = "test_AesA1.json"
 
-    # Create empty answer object and gpt object
-    answers = {}
-    gpt_request = GptRequest()
+# >> Locate pre-prompt File:
+with open('../pre_prompts/pre_prompt1.txt', 'r') as file:
+    pre_prompt = file.read()
 
-    # Total questions
-    all_num = len(data)
-
-    # Count image number and starting time of the process
+# AesA1 Process
+# >> Locate list of 100 image names
+with open('../data_release/ground_truth.csv', mode='r') as file:
+    reader = csv.reader(file)
+    next(reader)  # Skip header if there is one
+    
     img_num = 1
     start_time = time.time()
 
-    # Pre-Prompt File
-    with open('../pre_prompts/pre_prompt1.txt', 'r') as file:
-        pre_prompt = file.read()
+    for row in reader:
+        imgName = row[0]  # Assuming the image name is in the first column
 
-    # AesA1 Process
-    for imgName, label in data.items():
         # Show the image name
         print(f"\nImage name: {imgName}")
 
         # Locate the image path inside dataset folder
         img_path = os.path.join(path, imgName)
 
-        # Locate the question to be asked from json file
-        AesA1_data = label['AesA1_data']
-        AesA1_prompt = AesA1_data['Question'] + "\nChoose one from the following options:\n" + AesA1_data['Options'] + "\nYou should output a correct option.\n"
+        # Placeholder question and options (assuming these would come from somewhere else)
+        AesA1_prompt = "How is the aesthetic quality of this image? Choose one from the following options:\nHigh\nMedium\nLow\n"
         print(AesA1_prompt)
 
         # Wait for response
@@ -94,7 +92,7 @@ if True:
         AesA1_message = gpt_request.forward((pre_prompt + AesA1_prompt), img_path)
 
         # Show the answer received from API
-        print(f"Answer:\n{AesA1_message}")
+        print(f"\n{AesA1_message}")
 
         # Record the answer
         answers[imgName] = {"AesA1_response": AesA1_message}
@@ -105,10 +103,10 @@ if True:
 
         # Calculate the process time
         avg_time = (time.time() - start_time) / img_num
-        need_time = (avg_time * (all_num - img_num)) / 60
+        need_time = (avg_time * (len(answers) - img_num)) / 60
 
         # Show the process time
-        print(f"AesA1--{img_num}/{all_num} finished. Using time (s):{time.time() - start:.1f}. Average image time (s):{avg_time:.1f}. Need time (min):{need_time:.1f}.")
+        print(f"AesA1--{img_num}/{len(answers)} finished. Using time (s):{time.time() - start:.1f}. Average image time (s):{avg_time:.1f}. Need time (min):{need_time:.1f}.")
                 
         # Increment image number, and go to next image for aesthetic evaluation task
         img_num += 1
