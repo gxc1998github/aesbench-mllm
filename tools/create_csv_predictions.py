@@ -5,10 +5,9 @@ import json
 import csv
 
 # >> Locate paths:
-json_path = '../history/AesA1/result_11.json' # Choose the result history of gpt responses
-csv_path = '../data_release/prediction_AesA1.csv'
-#csv_path = '../data_release/prediction_AesA2.csv'
-#csv_path = '../data_release/prediction_AesA3.csv'
+json_path = '../history/AesA3/result_4.json' # Choose the result history of gpt responses
+csv_path = '../data_release/prediction_AesA3.csv'
+
 
 def convert_json_to_csv(json_path, csv_path):
     # Read JSON data from file
@@ -19,7 +18,7 @@ def convert_json_to_csv(json_path, csv_path):
     csv_data = []
     for image_name, details in json_data.items():
         # Extract the "Answer" part
-        aes_response = details['AesA1_response'].split('\n')[0].split(': ')[1]
+        aes_response = details['AesA3_response'].split('\n')[0].split(': ')[1]
         csv_data.append([image_name, aes_response])
 
     # Write to CSV
