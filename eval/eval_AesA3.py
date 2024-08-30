@@ -32,7 +32,7 @@ class GptRequest:
                     # Inspect response object to get text
                     result = response._result  
                     if result.candidates:
-                        text_content = result.candidates[0].content.parts[0].text
+                        text_content = result.candidates[0].content.parts[0].text.rstrip()
                         text = text_content if text_content else ""
                     else:
                         text = ""

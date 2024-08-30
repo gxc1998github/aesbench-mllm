@@ -17,7 +17,7 @@ genai.configure(api_key=os.getenv('API_KEY'))
 
 # Predefined prompts for each assessment method
 prompts = {
-    "AesA1": "How is the aesthetic quality of this image? Choose one from the following options:\nHigh\nMedium\nLow\n",
+    "AesA1": "How is the aesthetic quality of this image? Choose one from the following options: High, Medium, and Low.",
     "AesA2": "How is the aesthetic quality of this image? Rate them from scale 1 to 5.",
     "AesA3": "How is the aesthetic quality of this image? Rate them from scale 1 to 10."
 }
@@ -44,7 +44,7 @@ class GptRequest:
         # Extract and return the result
         result = response._result  
         if result.candidates:
-            text_content = result.candidates[0].content.parts[0].text
+            text_content = result.candidates[0].content.parts[0].text.rstrip()
             return text_content.strip()
         else:
             return "No response generated."

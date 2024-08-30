@@ -32,7 +32,7 @@ class GptRequest:
                     # Inspect response object to get text
                     result = response._result  
                     if result.candidates:
-                        text_content = result.candidates[0].content.parts[0].text
+                        text_content = result.candidates[0].content.parts[0].text.rstrip()
                         text = text_content if text_content else ""
                     else:
                         text = ""
@@ -53,7 +53,7 @@ gpt_request = GptRequest()
 
 # Please download the dataset
 # >> Locate where is the dowloaded image dataset:
-path = "/Users/daniel/Datasets/BIQ2021/Images"
+path = "/Users/daniel/Datasets/BIQ2021/Images/"
 
 # >> Locate where to record the gpt output
 save_name = "test_AesA1.json"
@@ -81,7 +81,7 @@ with open('../data_release/ground_truth.csv', mode='r') as file:
         img_path = os.path.join(path, imgName)
 
         # Placeholder question and options (assuming these would come from somewhere else)
-        AesA1_prompt = "How is the aesthetic quality of this image? Choose one from the following options:\nHigh\nMedium\nLow\n"
+        AesA1_prompt = "How is the aesthetic quality of this image? Choose one from the following options: High, Medium, and Low."
         print(AesA1_prompt)
 
         # Wait for response
