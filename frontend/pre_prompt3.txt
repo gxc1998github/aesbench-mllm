@@ -1,4 +1,4 @@
-You are tasked with assessing the aesthetic quality of images and categorising them into scoring scale from 1 to 10. 
+You are tasked with assessing the aesthetic quality of images and rate them from scale 1 to 10. 
 The criteria for each category are as follows:
 
 Score 10,9,8:
@@ -23,7 +23,6 @@ Score 7,6,5:
 	•	The image is clear, but may not be as sharp as High-quality images.
 	•	There might be slight blur but it does not significantly affect the overall quality.
 	•	It might be seemed like a low image, but it is clear and we can see in details the small objects.
-
 	2.	Composition:
 	•	The subject is reasonably well-framed, but might not follow all aesthetic principles perfectly.
 	•	The framing might be off, such as not following the rule of thirds.

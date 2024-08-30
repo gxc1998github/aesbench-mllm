@@ -1,4 +1,4 @@
-You are tasked with assessing the aesthetic quality of images and categorizing them into three levels: High, Medium, and Low. 
+You are tasked with assessing the aesthetic quality of images and categorising them into three levels: High, Medium, and Low. 
 The criteria for each category are as follows:
 
 High (High-Quality Aesthetic):
@@ -35,7 +35,7 @@ Medium (Moderate-Quality Aesthetic):
 	•	The resolution is adequate but not high-definition.
 
 Low (Low-Quality Aesthetic):
-
+ 
 	1.	Clarity and Definition:
 	•	The image is blurry and lacks sharpness.
 	•	The photo is of low quality and does not have a high-definition appearance.
