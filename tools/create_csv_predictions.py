@@ -5,8 +5,8 @@ import json
 import csv
 
 # >> Locate paths:
-json_path = '../history/AesA3/result_4.json'       # Choose a result history of gpt responses
-csv_path = '../data_release/prediction_AesA3.csv'  # Choose output file path
+json_path = '../history/AesA3/test1.json'             # Choose a result history of gpt responses
+csv_path = '../data_release/prediction_AesA3.csv'     # Choose output file path
 
 
 def convert_json_to_csv(json_path, csv_path):

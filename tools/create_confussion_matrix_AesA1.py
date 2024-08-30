@@ -15,7 +15,7 @@ merged_df.columns = merged_df.columns.str.strip()
 
 # Extract the ground truth and predicted values
 y_true = merged_df['Aesthetic Response']
-y_pred = merged_df['Level']
+y_pred = merged_df['AesA1_Score']
 
 # Calculate the confusion matrix
 cm = confusion_matrix(y_true, y_pred, labels=["High", "Medium", "Low"])
