@@ -18,8 +18,8 @@ genai.configure(api_key=os.getenv('API_KEY'))
 # Predefined prompts for each assessment method
 prompts = {
     "AesA1": "How is the aesthetic quality of this image? Choose one from the following options:\nHigh\nMedium\nLow\n",
-    "AesA2": "How is the aesthetic quality of this image? Give a score with a scale of 1 to 5.",
-    "AesA3": "How is the aesthetic quality of this image? Give a score with a scale of 1 to 10."
+    "AesA2": "How is the aesthetic quality of this image? Rate them from scale 1 to 5.",
+    "AesA3": "How is the aesthetic quality of this image? Rate them from scale 1 to 10."
 }
 
 # Function to read pre-prompt from a text file

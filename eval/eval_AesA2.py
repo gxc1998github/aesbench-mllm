@@ -81,7 +81,7 @@ with open('../data_release/ground_truth.csv', mode='r') as file:
         img_path = os.path.join(path, imgName)
 
         # Placeholder question
-        AesA2_prompt = "How is the aesthetic quality of this image? Give a score with a scale of 1 to 5."
+        AesA2_prompt = "How is the aesthetic quality of this image? Rate them from scale 1 to 5."
         print(AesA2_prompt)
 
         # Wait for response
