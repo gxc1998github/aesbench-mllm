@@ -5,8 +5,8 @@ import json
 import csv
 
 # >> Locate paths:
-json_path = '../history/AesA3/result_4.json' # Choose the result history of gpt responses
-csv_path = '../data_release/prediction_AesA3.csv'
+json_path = '../history/AesA3/result_4.json'       # Choose a result history of gpt responses
+csv_path = '../data_release/prediction_AesA3.csv'  # Choose output file path
 
 
 def convert_json_to_csv(json_path, csv_path):
@@ -15,6 +15,7 @@ def convert_json_to_csv(json_path, csv_path):
         json_data = json.load(json_file)
 
     # Prepare data for CSV
+    # >> Locate AesA response number:
     csv_data = []
     for image_name, details in json_data.items():
         # Extract the "Answer" part
