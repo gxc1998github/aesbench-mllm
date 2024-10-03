@@ -60,6 +60,9 @@ coverage.xml
 *.swp
 *.swo
 *.jpg
+*.jpeg
+*.png
+
 
 # OS-specific files
 .DS_Store
