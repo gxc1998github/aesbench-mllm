@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import os
 import PIL.Image
 from werkzeug.utils import secure_filename
@@ -17,9 +17,9 @@ genai.configure(api_key=os.getenv('API_KEY'))
 
 # Predefined prompts for each assessment method
 prompts = {
-    "AesA1": "How is the aesthetic quality of this image? Choose one from the following options:\nHigh\nMedium\nLow\n",
-    "AesA2": "How is the aesthetic quality of this image? Give a score with a scale of 1 to 5.",
-    "AesA3": "How is the aesthetic quality of this image? Give a score with a scale of 1 to 10."
+    "AesA1": "How is the aesthetic quality of this image? Choose one from the following options: High, Medium, and Low.",
+    "AesA2": "How is the aesthetic quality of this image? Rate them from scale 1 to 5.",
+    "AesA3": "How is the aesthetic quality of this image? Rate them from scale 1 to 10."
 }
 
 # Function to read pre-prompt from a text file
@@ -44,7 +44,7 @@ class GptRequest:
         # Extract and return the result
         result = response._result  
         if result.candidates:
-            text_content = result.candidates[0].content.parts[0].text
+            text_content = result.candidates[0].content.parts[0].text.rstrip()
             return text_content.strip()
         else:
             return "No response generated."
@@ -86,13 +86,18 @@ def index():
             gpt_request = GptRequest()
             result = gpt_request.forward(prompt, filepath)
 
-            return render_template('result.html', filename=filename, result=result)
+            # Split the result into answer and explanation
+            answer, explanation = result.split("Explanation: ")
+
+            # Pass the filename, answer, and explanation to the result.html template
+            return render_template('result.html', filename=filename, answer=answer, explanation=explanation)
     
     return render_template('index.html')
 
+# Updated route to serve uploaded files
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return redirect(url_for('static', filename='uploads/' + filename))
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
