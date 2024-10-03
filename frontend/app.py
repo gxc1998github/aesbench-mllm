@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import os
 import PIL.Image
 from werkzeug.utils import secure_filename
@@ -86,13 +86,18 @@ def index():
             gpt_request = GptRequest()
             result = gpt_request.forward(prompt, filepath)
 
-            return render_template('result.html', filename=filename, result=result)
+            # Split the result into answer and explanation
+            answer, explanation = result.split("Explanation: ")
+
+            # Pass the filename, answer, and explanation to the result.html template
+            return render_template('result.html', filename=filename, answer=answer, explanation=explanation)
     
     return render_template('index.html')
 
+# Updated route to serve uploaded files
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return redirect(url_for('static', filename='uploads/' + filename))
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

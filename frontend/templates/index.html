@@ -44,16 +44,28 @@
             border: none;
             background-color: #3a3a3a;
             color: #f0f0f0;
+            text-align: center;
         }
 
         h2 {
             font-size: 18px;
             margin-bottom: 10px;
+            text-align: center;
         }
 
-        label {
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .radio-group label {
             margin: 5px 0;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding-left: 50px;
         }
 
         input[type="radio"] {
@@ -61,22 +73,24 @@
         }
 
         button {
-            background-color: #4a90e2;
+            background-color: grey;
             border: none;
             color: white;
             padding: 10px 20px;
-            text-align: start;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             border-radius: 5px;
-            cursor: pointer;
+            cursor: not-allowed;
             margin-top: 20px;
-            transition: background-color 0.3s ease;
         }
 
-        button:hover {
+        button:hover:enabled {
             background-color: #357ab9;
+        }
+
+        button:disabled {
+            background-color: grey;
         }
     </style>
 </head>
@@ -84,24 +98,44 @@
     <div class="container">
         <h1>Estimating Image Aesthetics Using Deep Neural Networks</h1>
         <form action="{{ url_for('index') }}" method="post" enctype="multipart/form-data">
+            <h2>Upload Image</h2>
             <input type="file" name="file" accept="image/*">
 
             <h2>Select Assessment Method</h2>
-            <label>
-                <input type="radio" id="AesA1" name="method" value="AesA1" checked>
-                Assess based on High, Medium, Low
-            </label>
-            <label>
-                <input type="radio" id="AesA2" name="method" value="AesA2">
-                Assess based on score 1 - 5
-            </label>
-            <label>
-                <input type="radio" id="AesA3" name="method" value="AesA3">
-                Assess based on score 1 - 10
-            </label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" id="AesA1" name="method" value="AesA1" checked>
+                    Assess based on High, Medium, Low
+                </label>
+                <label>
+                    <input type="radio" id="AesA2" name="method" value="AesA2">
+                    Assess based on score 1 - 5
+                </label>
+                <label>
+                    <input type="radio" id="AesA3" name="method" value="AesA3">
+                    Assess based on score 1 - 10
+                </label>
+            </div>
 
-            <button type="submit">Assess</button>
+            <button type="submit" id="assessButton" disabled>Assess</button>
         </form>
     </div>
+
+    <script>
+        const fileInput = document.querySelector('input[type="file"]');
+        const assessButton = document.getElementById('assessButton');
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                assessButton.disabled = false;
+                assessButton.style.cursor = 'pointer';
+                assessButton.style.backgroundColor = '#4a90e2';
+            } else {
+                assessButton.disabled = true;
+                assessButton.style.cursor = 'not-allowed';
+                assessButton.style.backgroundColor = 'grey';
+            }
+        });
+    </script>
 </body>
 </html>
