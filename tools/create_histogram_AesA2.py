@@ -24,7 +24,7 @@ plt.hist(predicted_scores, bins=[1, 2, 3, 4, 5, 6], alpha=0.6, label='Predicted 
 # Add labels and title
 plt.xlabel('Aesthetic Score (1-5)', fontsize=12)
 plt.ylabel('Frequency', fontsize=12)
-plt.title('AesA2 Comparison of Ground Truth and Predicted Aesthetic Scores', fontsize=14)
+plt.title('AesA2 Numerical Comparison of Ground Truth and Predicted Scores', fontsize=14)
 
 # Add grid
 plt.grid(True, which='both', linestyle='--', linewidth=0.5)
